@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MINESWEEP</title>
+
+    <link rel="stylesheet" href="css/buscaminas.css">
+</head>
+<body>
+
+    <main class="contenedor-juego">
+
+        <h1>MINESWEEP</h1>
+
+        <p>Encuentra todas las casillas seguras y evita las minas.</p>
+
+        <section class="ajustes-juego">
+
+            <label for="seleccion-dificultad">
+                Dificultad:
+            </label>
+
+            <select id="seleccion-dificultad">
+                <option value="principiante">Principiante</option>
+                <option value="intermedio">Intermedio</option>
+                <option value="experto">Experto</option>
+            </select>
+
+            <button id="boton-reiniciar">
+                Reiniciar
+            </button>
+
+        </section>
+
+        <section class="informacion-partida">
+
+            <p>
+                Minas:
+                <span id="contador-minas">010</span>
+            </p>
+
+            <p>
+                Tiempo:
+                <span id="cronometro">000</span>
+            </p>
+
+            <p>
+                Escáneres:
+                <span id="contador-escaneos">3</span>
+            </p>
+
+        </section>
+
+        <p id="estado-partida">
+            LISTO
+        </p>
+
+        <section id="seccionTablero" class="seccionTablero"></section>
+
+        <section id="mensaje-partida" hidden>
+
+            <h2 id="titulo-resultado"></h2>
+
+            <p id="descripcion-resultado"></p>
+
+            <button id="boton-final">
+                Jugar otra vez
+            </button>
+
+        </section>
+
+        <section class="controles">
+
+            <h2>Controles</h2>
+
+            <p>
+                Haz clic izquierdo para descubrir una casilla.
+            </p>
+
+            <p>
+                Haz clic derecho para colocar una bandera.
+            </p>
+
+            <p>
+                Pulsa <strong>E</strong> para utilizar un escáner.
+            </p>
+
+            <p>
+                El escáner marca las minas de la zona 3x3 alrededor del cursor.
+            </p>
+
+        </section>
+
+    </main>
+
+    <script src="js/buscaminas.js"></script>
+
+</body>
+</html>
