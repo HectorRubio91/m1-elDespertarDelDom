@@ -1,0 +1,192 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+
+    font-family: Arial, sans-serif;
+    background-color: #eeeeee;
+    color: #222222;
+}
+
+.contenedor-juego {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+.ajustes-juego {
+    margin: 20px 0;
+}
+
+.ajustes-juego label {
+    margin-right: 10px;
+}
+
+button,
+select {
+    padding: 6px 10px;
+
+    font-size: 14px;
+
+    border: 1px solid #999999;
+    border-radius: 3px;
+
+    cursor: pointer;
+}
+
+button {
+    background-color: #dddddd;
+    color: #222222;
+}
+
+button:hover {
+    background-color: #cccccc;
+}
+
+select {
+    background-color: white;
+    color: black;
+}
+
+.informacion-partida {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+    margin: 20px 0;
+}
+
+.informacion-partida p {
+    margin: 0;
+    padding: 8px;
+
+    border: 1px solid #cccccc;
+    background-color: white;
+}
+
+#estado-partida {
+    font-weight: bold;
+}
+
+.seccionTablero {
+    display: grid;
+
+    width: 100%;
+    max-width: 600px;
+
+    margin: 20px auto;
+
+    gap: 1px;
+}
+
+.cell {
+    aspect-ratio: 1;
+
+    padding: 0;
+
+    border: 1px solid #aaaaaa;
+
+    background-color: #bbbbbb;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.cell:hover {
+    background-color: #aaaaaa;
+}
+
+.cell-revealed {
+    background-color: #eeeeee;
+    color: #222222;
+
+    cursor: default;
+}
+
+.cell-flagged {
+    background-color: #f0c040;
+    color: black;
+}
+
+.cell-mine {
+    background-color: #e53935;
+    color: white;
+}
+
+.cell-number-1 {
+    color: blue;
+}
+
+.cell-number-2 {
+    color: green;
+}
+
+.cell-number-3 {
+    color: red;
+}
+
+.cell-number-4 {
+    color: darkblue;
+}
+
+.cell-number-5 {
+    color: darkred;
+}
+
+#mensaje-partida {
+    margin: 20px auto;
+    padding: 15px;
+
+    max-width: 500px;
+
+    background-color: white;
+    border: 1px solid #cccccc;
+}
+
+#mensaje-partida[hidden] {
+    display: none;
+}
+
+.controles {
+    margin-top: 20px;
+    padding: 15px;
+
+    background-color: #dddddd;
+    border: 1px solid #cccccc;
+}
+
+.controles h2 {
+    margin-top: 0;
+}
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .cell {
+        font-size: 12px;
+    }
+
+    .informacion-partida {
+        gap: 5px;
+    }
+
+    .informacion-partida p {
+        padding: 6px;
+        font-size: 13px;
+    }
+
+}
