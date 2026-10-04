@@ -27,6 +27,11 @@ let partidaTerminada = false;
 let tiempo = 0;
 let intervaloCronometro = null;
 
+let escaneosRestantes = 3;
+
+let filaCursor = null;
+let columnaCursor = null;
+
 
 // Dificultades
 
@@ -69,6 +74,10 @@ function iniciarPartida() {
     partidaTerminada = false;
 
     tiempo = 0;
+    escaneosRestantes = 3;
+
+    filaCursor = null;
+    columnaCursor = null;
 
     cronometro.textContent = "000";
     contadorEscaneos.textContent = "3";
@@ -184,6 +193,11 @@ function dibujarTablero() {
 
             celda.addEventListener("click", hacerClickCelda);
             celda.addEventListener("contextmenu", hacerClickDerechoCelda);
+
+            celda.addEventListener("mouseenter", () => {
+                filaCursor = fila;
+                columnaCursor = columna;
+            });
 
             elementoTablero.appendChild(celda);
         }
@@ -330,6 +344,57 @@ function hacerClickDerechoCelda(event) {
 }
 
 
+// Escáner
+
+function escanear() {
+    if (partidaTerminada) {
+        return;
+    }
+
+    if (escaneosRestantes <= 0) {
+        return;
+    }
+
+    if (filaCursor === null || columnaCursor === null) {
+        return;
+    }
+
+    if (!partidaEmpezada) {
+        partidaEmpezada = true;
+        estadoPartida.textContent = "EN CURSO";
+        empezarCronometro();
+    }
+
+    for (let desplazamientoFila = -1; desplazamientoFila <= 1; desplazamientoFila++) {
+        for (let desplazamientoColumna = -1; desplazamientoColumna <= 1; desplazamientoColumna++) {
+
+            const fila = filaCursor + desplazamientoFila;
+            const columna = columnaCursor + desplazamientoColumna;
+
+            if (
+                fila >= 0 &&
+                fila < filas &&
+                columna >= 0 &&
+                columna < columnas
+            ) {
+                if (tablero[fila][columna].mina) {
+                    tablero[fila][columna].marcada = true;
+                }
+            }
+        }
+    }
+
+    escaneosRestantes--;
+
+    contadorEscaneos.textContent = escaneosRestantes;
+
+    dibujarTablero();
+    actualizarContadorMinas();
+
+    comprobarVictoria();
+}
+
+
 // Contador de minas
 
 function actualizarContadorMinas() {
@@ -421,6 +486,12 @@ botonReinicio.addEventListener("click", iniciarPartida);
 botonFinal.addEventListener("click", iniciarPartida);
 
 seleccionDificultad.addEventListener("change", iniciarPartida);
+
+document.addEventListener("keydown", (event) => {
+    if (event.key.toLowerCase() === "e" && !event.repeat) {
+        escanear();
+    }
+});
 
 
 // Comenzar al cargar la página
