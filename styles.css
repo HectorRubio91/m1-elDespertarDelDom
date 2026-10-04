@@ -1,4 +1,4 @@
-* {
+*{
     box-sizing: border-box;
 }
 
@@ -7,8 +7,8 @@ body {
     padding: 20px;
 
     font-family: Arial, sans-serif;
-    background-color: #eeeeee;
-    color: #222222;
+    background-color: #202124;
+    color: white;
 }
 
 .contenedor-juego {
@@ -23,33 +23,35 @@ h1 {
     margin-bottom: 10px;
 }
 
-.ajustes-juego {
-    margin: 20px 0;
-}
+.ajustes-juego,
+.informacion-partida {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
 
-.ajustes-juego label {
-    margin-right: 10px;
+    margin: 20px 0;
 }
 
 button,
 select {
-    padding: 6px 10px;
+    padding: 8px 12px;
 
     font-size: 14px;
-
-    border: 1px solid #999999;
-    border-radius: 3px;
+    border: none;
+    border-radius: 4px;
 
     cursor: pointer;
 }
 
 button {
-    background-color: #dddddd;
-    color: #222222;
+    background-color: #4caf50;
+    color: white;
 }
 
 button:hover {
-    background-color: #cccccc;
+    background-color: #388e3c;
 }
 
 select {
@@ -57,27 +59,19 @@ select {
     color: black;
 }
 
-.informacion-partida {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-
-    margin: 20px 0;
-}
-
 .informacion-partida p {
     margin: 0;
-    padding: 8px;
+    padding: 8px 12px;
 
-    border: 1px solid #cccccc;
-    background-color: white;
+    background-color: #333;
+    border-radius: 4px;
 }
 
 #estado-partida {
     font-weight: bold;
 }
 
-.seccionTablero {
+.seccion-tablero {
     display: grid;
 
     width: 100%;
@@ -85,17 +79,18 @@ select {
 
     margin: 20px auto;
 
-    gap: 1px;
+    gap: 2px;
 }
 
-.cell {
+.celda {
     aspect-ratio: 1;
 
     padding: 0;
 
-    border: 1px solid #aaaaaa;
+    border: 1px solid #555;
+    border-radius: 2px;
 
-    background-color: #bbbbbb;
+    background-color: #777;
 
     font-size: 16px;
     font-weight: bold;
@@ -103,55 +98,55 @@ select {
     cursor: pointer;
 }
 
-.cell:hover {
-    background-color: #aaaaaa;
+.celda:hover {
+    background-color: #999;
 }
 
-.cell-revealed {
-    background-color: #eeeeee;
-    color: #222222;
+.celda-revelada {
+    background-color: #ddd;
+    color: black;
 
     cursor: default;
 }
 
-.cell-flagged {
+.celda-seleccionada {
     background-color: #f0c040;
     color: black;
 }
 
-.cell-mine {
+.celda-mina {
     background-color: #e53935;
     color: white;
 }
 
-.cell-number-1 {
+.celda-numero-1 {
     color: blue;
 }
 
-.cell-number-2 {
+.celda-numero-2 {
     color: green;
 }
 
-.cell-number-3 {
+.celda-numero-3 {
     color: red;
 }
 
-.cell-number-4 {
+.celda-numero-4 {
     color: darkblue;
 }
 
-.cell-number-5 {
+.celda-numero-5 {
     color: darkred;
 }
 
 #mensaje-partida {
     margin: 20px auto;
-    padding: 15px;
+    padding: 20px;
 
     max-width: 500px;
 
-    background-color: white;
-    border: 1px solid #cccccc;
+    background-color: #333;
+    border-radius: 6px;
 }
 
 #mensaje-partida[hidden] {
@@ -159,11 +154,11 @@ select {
 }
 
 .controles {
-    margin-top: 20px;
+    margin-top: 30px;
     padding: 15px;
 
-    background-color: #dddddd;
-    border: 1px solid #cccccc;
+    background-color: #333;
+    border-radius: 6px;
 }
 
 .controles h2 {
@@ -176,12 +171,12 @@ select {
         padding: 10px;
     }
 
-    .cell {
+    .celda {
         font-size: 12px;
     }
 
     .informacion-partida {
-        gap: 5px;
+        gap: 8px;
     }
 
     .informacion-partida p {
