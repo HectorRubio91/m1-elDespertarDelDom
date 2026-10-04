@@ -139,6 +139,18 @@ select {
     color: darkred;
 }
 
+.celda-numero-6 {
+    color: teal;
+}
+
+.celda-numero-7 {
+    color: gray;
+}
+
+.celda-numero-8 {
+    color: black;
+}
+
 #mensaje-partida {
     margin: 20px auto;
     padding: 20px;
