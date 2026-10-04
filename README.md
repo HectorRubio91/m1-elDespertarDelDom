@@ -333,7 +333,7 @@ No añadas funcionalidades que todavía no corresponden a esta fase.
 
 El objetivo es hacer que el HTML y CSS que ya tengo cobren vida mediante JavaScript puro.
 Empieza analizando brevemente el HTML existente y después proporciona el app.js completo.
-=============================
+
 Este prompt se lo mandé tanto a ChatGPT como a Claude y con los códigos que me dieron fui entendiendo y escogiendo que quería en mi proyecto. Yo fui escribiendo a mano seleccionado lo que quería y lo que no, 
 además de ir aprendiendo y entendiendo lo que hacia.
 
