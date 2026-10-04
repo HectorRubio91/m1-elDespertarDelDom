@@ -13,6 +13,7 @@ const descripcionResultado = document.querySelector("#descripcion-resultado");
 const botonFinal = document.querySelector("#boton-final");
 
 let tablero = [];
+let elementosCeldas = [];
 
 let filas;
 let columnas;
@@ -31,7 +32,6 @@ let escaneosRestantes = 3;
 
 let filaCursor = null;
 let columnaCursor = null;
-
 
 // Dificultades
 
@@ -54,7 +54,6 @@ const dificultades = {
         minas: 99
     }
 };
-
 
 // Iniciar partida
 
@@ -89,9 +88,8 @@ function iniciarPartida() {
     crearTablero();
     colocarMinas();
     calcularNumeros();
-    dibujarTablero();
+    crearElementosTablero();
 }
-
 
 // Crear tablero
 
@@ -112,6 +110,40 @@ function crearTablero() {
     }
 }
 
+// Obtener casillas vecinas
+
+function obtenerVecinos(fila, columna) {
+    const vecinos = [];
+
+    for (let desplazamientoFila = -1; desplazamientoFila <= 1; desplazamientoFila++) {
+        for (let desplazamientoColumna = -1; desplazamientoColumna <= 1; desplazamientoColumna++) {
+
+            if (
+                desplazamientoFila === 0 &&
+                desplazamientoColumna === 0
+            ) {
+                continue;
+            }
+
+            const nuevaFila = fila + desplazamientoFila;
+            const nuevaColumna = columna + desplazamientoColumna;
+
+            if (
+                nuevaFila >= 0 &&
+                nuevaFila < filas &&
+                nuevaColumna >= 0 &&
+                nuevaColumna < columnas
+            ) {
+                vecinos.push({
+                    fila: nuevaFila,
+                    columna: nuevaColumna
+                });
+            }
+        }
+    }
+
+    return vecinos;
+}
 
 // Colocar minas
 
@@ -129,7 +161,6 @@ function colocarMinas() {
     }
 }
 
-
 // Calcular números
 
 function calcularNumeros() {
@@ -144,42 +175,33 @@ function calcularNumeros() {
     }
 }
 
-
 function contarMinasAdyacentes(fila, columna) {
     let conteo = 0;
 
-    for (let desplazamientoFila = -1; desplazamientoFila <= 1; desplazamientoFila++) {
-        for (let desplazamientoColumna = -1; desplazamientoColumna <= 1; desplazamientoColumna++) {
+    const vecinos = obtenerVecinos(fila, columna);
 
-            const nuevaFila = fila + desplazamientoFila;
-            const nuevaColumna = columna + desplazamientoColumna;
-
-            if (
-                nuevaFila >= 0 &&
-                nuevaFila < filas &&
-                nuevaColumna >= 0 &&
-                nuevaColumna < columnas
-            ) {
-                if (tablero[nuevaFila][nuevaColumna].mina) {
-                    conteo++;
-                }
-            }
+    for (const vecino of vecinos) {
+        if (tablero[vecino.fila][vecino.columna].mina) {
+            conteo++;
         }
     }
 
     return conteo;
 }
 
+// Crear elementos del tablero
 
-// Dibujar tablero
+function crearElementosTablero() {
+    elementoTablero.replaceChildren();
 
-function dibujarTablero() {
-    elementoTablero.innerHTML = "";
+    elementosCeldas = [];
 
     elementoTablero.style.gridTemplateColumns =
         `repeat(${columnas}, 1fr)`;
 
     for (let fila = 0; fila < filas; fila++) {
+        elementosCeldas[fila] = [];
+
         for (let columna = 0; columna < columnas; columna++) {
 
             const celda = document.createElement("button");
@@ -189,8 +211,6 @@ function dibujarTablero() {
             celda.dataset.fila = fila;
             celda.dataset.columna = columna;
 
-            actualizarCelda(celda, fila, columna);
-
             celda.addEventListener("click", hacerClickCelda);
             celda.addEventListener("contextmenu", hacerClickDerechoCelda);
 
@@ -199,11 +219,14 @@ function dibujarTablero() {
                 columnaCursor = columna;
             });
 
+            elementosCeldas[fila][columna] = celda;
+
             elementoTablero.appendChild(celda);
+
+            actualizarCelda(celda, fila, columna);
         }
     }
 }
-
 
 // Actualizar una casilla
 
@@ -237,16 +260,25 @@ function actualizarCelda(celda, fila, columna) {
     }
 }
 
+// Comenzar partida si es necesario
+
+function comenzarPartidaSiEsNecesario() {
+    if (!partidaEmpezada) {
+        partidaEmpezada = true;
+        estadoPartida.textContent = "EN CURSO";
+        empezarCronometro();
+    }
+}
 
 // Click izquierdo
 
-function hacerClickCelda(event) {
+function hacerClickCelda(evento) {
     if (partidaTerminada) {
         return;
     }
 
-    const fila = Number(event.currentTarget.dataset.fila);
-    const columna = Number(event.currentTarget.dataset.columna);
+    const fila = Number(evento.currentTarget.dataset.fila);
+    const columna = Number(evento.currentTarget.dataset.columna);
 
     const celdaActual = tablero[fila][columna];
 
@@ -254,11 +286,7 @@ function hacerClickCelda(event) {
         return;
     }
 
-    if (!partidaEmpezada) {
-        partidaEmpezada = true;
-        estadoPartida.textContent = "EN CURSO";
-        empezarCronometro();
-    }
+    comenzarPartidaSiEsNecesario();
 
     if (celdaActual.mina) {
         perderPartida();
@@ -267,12 +295,10 @@ function hacerClickCelda(event) {
 
     revelarCelda(fila, columna);
 
-    dibujarTablero();
     actualizarContadorMinas();
 
     comprobarVictoria();
 }
-
 
 // Revelar casillas
 
@@ -290,38 +316,28 @@ function revelarCelda(fila, columna) {
     celdaActual.revelada = true;
     celdasReveladas++;
 
+    actualizarCelda(elementosCeldas[fila][columna], fila, columna);
+
     if (celdaActual.numero === 0) {
-        for (let desplazamientoFila = -1; desplazamientoFila <= 1; desplazamientoFila++) {
-            for (let desplazamientoColumna = -1; desplazamientoColumna <= 1; desplazamientoColumna++) {
+        const vecinos = obtenerVecinos(fila, columna);
 
-                const nuevaFila = fila + desplazamientoFila;
-                const nuevaColumna = columna + desplazamientoColumna;
-
-                if (
-                    nuevaFila >= 0 &&
-                    nuevaFila < filas &&
-                    nuevaColumna >= 0 &&
-                    nuevaColumna < columnas
-                ) {
-                    revelarCelda(nuevaFila, nuevaColumna);
-                }
-            }
+        for (const vecino of vecinos) {
+            revelarCelda(vecino.fila, vecino.columna);
         }
     }
 }
 
-
 // Click derecho
 
-function hacerClickDerechoCelda(event) {
-    event.preventDefault();
+function hacerClickDerechoCelda(evento) {
+    evento.preventDefault();
 
     if (partidaTerminada) {
         return;
     }
 
-    const fila = Number(event.currentTarget.dataset.fila);
-    const columna = Number(event.currentTarget.dataset.columna);
+    const fila = Number(evento.currentTarget.dataset.fila);
+    const columna = Number(evento.currentTarget.dataset.columna);
 
     const celdaActual = tablero[fila][columna];
 
@@ -337,12 +353,12 @@ function hacerClickDerechoCelda(event) {
         celdasMarcadas--;
     }
 
-    dibujarTablero();
+    actualizarCelda(elementosCeldas[fila][columna], fila, columna);
+
     actualizarContadorMinas();
 
     comprobarVictoria();
 }
-
 
 // Escáner
 
@@ -359,29 +375,33 @@ function escanear() {
         return;
     }
 
-    if (!partidaEmpezada) {
-        partidaEmpezada = true;
-        estadoPartida.textContent = "EN CURSO";
-        empezarCronometro();
-    }
+    comenzarPartidaSiEsNecesario();
 
-    for (let desplazamientoFila = -1; desplazamientoFila <= 1; desplazamientoFila++) {
-        for (let desplazamientoColumna = -1; desplazamientoColumna <= 1; desplazamientoColumna++) {
+    const filaCentro = filaCursor;
+    const columnaCentro = columnaCursor;
 
-            const fila = filaCursor + desplazamientoFila;
-            const columna = columnaCursor + desplazamientoColumna;
+    const celdasEscaneadas = obtenerVecinos(filaCentro, columnaCentro);
 
-            if (
-                fila >= 0 &&
-                fila < filas &&
-                columna >= 0 &&
-                columna < columnas
-            ) {
-                if (tablero[fila][columna].mina && !tablero[fila][columna].marcada) {
-                    tablero[fila][columna].marcada = true;
-                    celdasMarcadas++;
-                }
-            }
+    celdasEscaneadas.push({
+        fila: filaCentro,
+        columna: columnaCentro
+    });
+
+    for (const celdaEscaneada of celdasEscaneadas) {
+        const fila = celdaEscaneada.fila;
+        const columna = celdaEscaneada.columna;
+
+        const celda = tablero[fila][columna];
+
+        if (celda.mina && !celda.marcada) {
+            celda.marcada = true;
+            celdasMarcadas++;
+
+            actualizarCelda(
+                elementosCeldas[fila][columna],
+                fila,
+                columna
+            );
         }
     }
 
@@ -389,12 +409,10 @@ function escanear() {
 
     contadorEscaneos.textContent = escaneosRestantes;
 
-    dibujarTablero();
     actualizarContadorMinas();
 
     comprobarVictoria();
 }
-
 
 // Contador de minas
 
@@ -405,7 +423,6 @@ function actualizarContadorMinas() {
         String(Math.max(0, minasRestantes)).padStart(3, "0");
 }
 
-
 // Victoria
 
 function comprobarVictoria() {
@@ -415,7 +432,6 @@ function comprobarVictoria() {
         ganarPartida();
     }
 }
-
 
 function ganarPartida() {
     partidaTerminada = true;
@@ -432,7 +448,6 @@ function ganarPartida() {
     mensajePartida.hidden = false;
 }
 
-
 // Derrota
 
 function perderPartida() {
@@ -447,11 +462,15 @@ function perderPartida() {
 
             if (tablero[fila][columna].mina) {
                 tablero[fila][columna].revelada = true;
+
+                actualizarCelda(
+                    elementosCeldas[fila][columna],
+                    fila,
+                    columna
+                );
             }
         }
     }
-
-    dibujarTablero();
 
     tituloResultado.textContent = "¡Has perdido!";
     descripcionResultado.textContent =
@@ -460,7 +479,6 @@ function perderPartida() {
 
     mensajePartida.hidden = false;
 }
-
 
 // Temporizador
 
@@ -479,7 +497,6 @@ function detenerCronometro() {
     intervaloCronometro = null;
 }
 
-
 // Eventos
 
 botonReinicio.addEventListener("click", iniciarPartida);
@@ -488,18 +505,21 @@ botonFinal.addEventListener("click", iniciarPartida);
 
 seleccionDificultad.addEventListener("change", iniciarPartida);
 
-document.addEventListener("keydown", (event) => {
-    if (event.key.toLowerCase() === "e" && !event.repeat) {
+document.addEventListener("keydown", (evento) => {
+    if (evento.repeat) {
+        return;
+    }
+
+    const tecla = evento.key.toLowerCase();
+
+    if (tecla === "e") {
         escanear();
     }
-});
 
-document.addEventListener("keydown", (evento) => {
-    if (evento.key.toLowerCase() === "t") {
+    if (tecla === "t") {
         document.body.classList.toggle("tema-claro");
     }
 });
-
 
 // Comenzar al cargar la página
 

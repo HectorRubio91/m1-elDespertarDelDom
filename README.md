@@ -6,7 +6,7 @@ Misión M1 * El Despertar del DOM - Web Development I
 
 Abre index.html en el navegador (o con Live Server el en VSCode). Cuando abres la página web ya puedes empezar a jugar. 
 Actualmente están las dificultades principiante, intermedio y experto, cuanta mayor la dificultad mas grande y con mas minas el tablero, si cambias de dificultad se reinicia la partida. 
-También hay un botón de reinicio por si quieres reiniciar pero no cambiar de dificultad. Funciona como un buscaminas normal, cuando descubres todas las minas ganas y si tocas una mina explotas y pierdes. 
+También hay un botón de reinicio por si quieres reiniciar pero no cambiar de dificultad. Funciona como un buscaminas normal, cuando revelas todas las celdas seguras ganas y si tocas una mina explotas y pierdes. 
 Con click izq del ratón revelas una celda y con click der la marcas o desmarcas. Tiene un cronometro para ver cuanto tardas pero no define nada de la partida.
 La tecla secreta para activar el tema claro es la T.
 
