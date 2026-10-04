@@ -9,6 +9,7 @@ Actualmente están las dificultades principiante, intermedio y experto, cuanta m
 También hay un botón de reinicio por si quieres reiniciar pero no cambiar de dificultad. Funciona como un buscaminas normal, cuando descubres todas las minas ganas y si tocas una mina explotas y pierdes. 
 Con click izq del ratón revelas una celda y con click der la marcas o desmarcas. Tiene un cronometro para ver cuanto tardas pero no define nada de la partida.
 La tecla secreta para activar el tema claro es la T.
+Se puede escanear una zona 3x3 dandole a la E aunque solo tiene 3 usos.
 
 ## Uso de IA
 
@@ -84,7 +85,7 @@ El HTML actual es este:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MINESWEEP</title>
+    <title>BUSCAMINAS</title>
 
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -335,6 +336,8 @@ Empieza analizando brevemente el HTML existente y después proporciona el app.js
 =============================
 Este prompt se lo mandé tanto a ChatGPT como a Claude y con los códigos que me dieron fui entendiendo y escogiendo que quería en mi proyecto. Yo fui escribiendo a mano seleccionado lo que quería y lo que no, 
 además de ir aprendiendo y entendiendo lo que hacia.
+
+Ya he añadido el tema claro y el poder escanear con la E a la página web actual
 
 ## Autopsia
 
