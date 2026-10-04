@@ -494,6 +494,12 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
+document.addEventListener("keydown", (evento) => {
+    if (evento.key.toLowerCase() === "t") {
+        document.body.classList.toggle("tema-claro");
+    }
+});
+
 
 // Comenzar al cargar la página
 
