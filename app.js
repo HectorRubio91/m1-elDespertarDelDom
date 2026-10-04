@@ -377,8 +377,9 @@ function escanear() {
                 columna >= 0 &&
                 columna < columnas
             ) {
-                if (tablero[fila][columna].mina) {
+                if (tablero[fila][columna].mina && !tablero[fila][columna].marcada) {
                     tablero[fila][columna].marcada = true;
+                    celdasMarcadas++;
                 }
             }
         }
